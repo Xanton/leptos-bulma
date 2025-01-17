@@ -1,4 +1,7 @@
 use leptos::*;
+use leptos::children::*;
+use leptos::text_prop::TextProp;
+use leptos::prelude::*;
 
 use crate::enums::{BAlignment, BBreadcrumbSeparator, BSize};
 
@@ -6,11 +9,11 @@ use crate::enums::{BAlignment, BBreadcrumbSeparator, BSize};
 pub fn BBreadcrumb(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BAlignment::Default.into(), into)] alignment: MaybeSignal<BAlignment>,
-    #[prop(default = BBreadcrumbSeparator::Default.into(), into)] separator: MaybeSignal<
+    #[prop(default = BAlignment::Default.into(), into)] alignment: Signal<BAlignment>,
+    #[prop(default = BBreadcrumbSeparator::Default.into(), into)] separator: Signal<
         BBreadcrumbSeparator,
     >,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
 ) -> impl IntoView {
     let breadcrumb_class_list = move || {
         let mut class_list = "breadcrumb".to_owned();
@@ -42,12 +45,12 @@ pub fn BBreadcrumb(
 #[component]
 pub fn BBreadcrumbItem(
     children: Children,
-    #[prop(optional, into)] is_active: MaybeSignal<bool>,
-    #[prop(optional, into)] href: Option<TextProp>,
+    #[prop(optional, into)] is_active: Signal<bool>,
+    #[prop(optional, into)] href_P: TextProp,
 ) -> impl IntoView {
     view! {
         <li class:is-active=is_active>
-            <a href=href>{children()}</a>
+            <a href=href_P.get()>{children()}</a>
         </li>
     }
 }

@@ -1,5 +1,7 @@
 use leptos::ev::MouseEvent;
 use leptos::*;
+use leptos::html::*;
+use leptos::prelude::*;
 
 #[component]
 pub fn BModal(
@@ -14,7 +16,7 @@ pub fn BModal(
         is_active.set(false);
 
         if let Some(oc) = on_close {
-            oc.call(event);
+            oc.run(event);
         }
     };
 

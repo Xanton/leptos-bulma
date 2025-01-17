@@ -1,19 +1,19 @@
 use leptos::*;
-
+use leptos::prelude::*;
 use super::{BControl, BField, BHelp, BLabel};
 
 #[component]
 pub fn BTextareaField(
-    #[prop(optional, into)] error: MaybeSignal<Option<String>>,
-    #[prop(optional)] id: Option<&'static str>,
+    #[prop(optional, into)] error: Signal<Option<String>>,
+    #[prop(optional)] id: &'static str,
     #[prop(optional)] label: Option<&'static str>,
-    #[prop(optional)] name: Option<&'static str>,
-    #[prop(optional)] placeholder: Option<&'static str>,
-    #[prop(optional, into)] value: MaybeSignal<String>,
+    #[prop(optional)] name: &'static str,
+    #[prop(optional)] placeholder: &'static str,
+    #[prop(optional, into)] value: Signal<String>,
 ) -> impl IntoView {
-    let error_text = create_rw_signal(None);
+    let error_text = RwSignal::new(None);
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         error_text.set(error.get().map(|e| e.trim().to_owned()));
     });
 

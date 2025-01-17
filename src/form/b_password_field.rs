@@ -3,15 +3,16 @@ use leptos::*;
 use crate::EventFn;
 
 use super::{BControl, BField, BHelp, BLabel};
+use leptos::prelude::*;
 
 #[cfg(feature = "icondata-fa")]
 #[component]
 fn VisibilityIcon(is_visible: RwSignal<bool>) -> impl IntoView {
     use crate::elements::BIcon;
 
-    let visibility_icon = create_rw_signal(icondata_fa::FaEyeSlashSolid);
+    let visibility_icon = RwSignal::new(icondata_fa::FaEyeSlashSolid);
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         visibility_icon.set(if is_visible.get() {
             icondata_fa::FaEyeSolid
         } else {
@@ -25,9 +26,9 @@ fn VisibilityIcon(is_visible: RwSignal<bool>) -> impl IntoView {
 #[cfg(not(feature = "icondata-fa"))]
 #[component]
 fn VisibilityIcon(is_visible: RwSignal<bool>) -> impl IntoView {
-    let text_decoration = create_rw_signal("line-through");
+    let text_decoration = RwSignal::new("line-through");
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         text_decoration.set(if is_visible.get() {
             "none"
         } else {
@@ -42,19 +43,19 @@ fn VisibilityIcon(is_visible: RwSignal<bool>) -> impl IntoView {
 #[component]
 pub fn BPasswordField(
     #[prop(optional)] node_ref: NodeRef<leptos::html::Input>,
-    #[prop(optional, into)] error: MaybeSignal<Option<String>>,
-    #[prop(optional)] id: Option<&'static str>,
+    #[prop(optional, into)] error: Signal<Option<String>>,
+    #[prop(optional)] id: &'static str,
     #[prop(optional)] label: Option<&'static str>,
-    #[prop(optional)] name: Option<&'static str>,
-    #[prop(optional)] placeholder: Option<&'static str>,
-    #[prop(optional, into)] value: MaybeSignal<String>,
+    #[prop(optional)] name: &'static str,
+    #[prop(optional)] placeholder: &'static str,
+    #[prop(optional, into)] value: Signal<String>,
     #[prop(optional, into)] on_change: Option<EventFn>,
     #[prop(optional, into)] on_input: Option<EventFn>,
 ) -> impl IntoView {
-    let error_text = create_rw_signal(None);
-    let is_visible = create_rw_signal(false);
+    let error_text = RwSignal::new(None);
+    let is_visible = RwSignal::new(false);
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         error_text.set(error.get().map(|e| e.trim().to_owned()));
     });
 
@@ -86,9 +87,13 @@ pub fn BPasswordField(
 
     let input_view = view! {
         <input node_ref=node_ref class=input_class id=id type=input_type name=name placeholder=placeholder value=value/>
+    };
+    if on_change.is_some() {
+        node_ref.on_load(|element| { let _ = element.on(ev::change, on_change.unwrap().into_inner());});
     }
-    .optional_event(ev::change, on_change.map(EventFn::into_inner))
-    .optional_event(ev::input, on_input.map(EventFn::into_inner));
+    if on_input.is_some() {
+        node_ref.on_load(|element| { let _ = element.on(ev::input, on_input.unwrap().into_inner());});
+    }
 
     view! {
         <BField>

@@ -1,4 +1,8 @@
 use leptos::*;
+use leptos::html::*;
+use leptos::attr::AttributeValue;
+use leptos::prelude::{Children, ClassAttribute};
+use leptos::text_prop::TextProp;
 
 mod b_checkbox;
 mod b_checkbox_field;
@@ -39,7 +43,7 @@ pub fn BHelp(#[prop(optional, into)] class: TextProp, children: Children) -> imp
 
 #[component]
 pub fn BLabel(
-    #[prop(optional, into)] for_id: Option<AttributeValue>,
+    #[prop(optional, into)] for_id: Option<String>,
     children: Children,
 ) -> impl IntoView {
     view! {

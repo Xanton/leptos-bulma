@@ -3,21 +3,21 @@ use leptos::*;
 use crate::EventFn;
 
 use super::{BCheckbox, BCheckboxProps, BControl, BField, BHelp};
-
+use leptos::prelude::*;
 #[component]
 pub fn BCheckboxField(
     #[prop(optional)] node_ref: NodeRef<leptos::html::Input>,
-    #[prop(optional, into)] error: MaybeSignal<Option<String>>,
+    #[prop(optional, into)] error: Signal<Option<String>>,
     #[prop(optional, into)] id: Option<&'static str>,
     label: &'static str,
     #[prop(optional, into)] name: Option<&'static str>,
-    #[prop(default = "true".into(), into)] value: MaybeSignal<String>,
-    #[prop(optional, into)] is_checked: MaybeSignal<bool>,
+    #[prop(default = "true".into(), into)] value: Signal<String>,
+    #[prop(optional, into)] is_checked: Signal<bool>,
     #[prop(optional, into)] on_change: Option<EventFn>,
 ) -> impl IntoView {
-    let error_text = create_rw_signal(None);
+    let error_text = RwSignal::new(None);
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         error_text.set(error.get().map(|e| e.trim().to_owned()));
     });
 

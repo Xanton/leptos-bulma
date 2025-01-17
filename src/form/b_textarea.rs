@@ -1,4 +1,7 @@
 use leptos::*;
+use leptos::attr::Attr;
+use leptos::prelude::*;
+//use leptos::server_fn::serde::__private::de::Content::String;
 
 #[component]
 pub fn BTextarea(
@@ -6,16 +9,24 @@ pub fn BTextarea(
     #[prop(optional)] id: Option<&'static str>,
     #[prop(optional)] name: Option<&'static str>,
     #[prop(optional)] placeholder: Option<&'static str>,
-    #[prop(optional, into)] value: MaybeSignal<String>,
-    #[prop(attrs, optional)] attributes: Vec<(&'static str, Attribute)>,
+    #[prop(optional, into)] value: Signal<String>,
+    #[prop(attrs, optional)] attributes: Vec<(&'static str, String)>,
 ) -> impl IntoView {
-    let mut b_textarea = view! {
-        <textarea class=format!("textarea {}", class.unwrap_or_default()) id=id name=name placeholder=placeholder prop:value=value/>
-    };
+    //let mut b_textarea =
 
-    for (attr_name, attr_value) in attributes {
-        b_textarea = b_textarea.attr(attr_name, attr_value);
+    //let mut dynamicAttribute = String::new();
+    //for (attr_name, attr_value) in attributes {
+    //    dynamicAttribute = dynamicAttribute + format!("{}={} ", attr_name, attr_value).as_str();
+    //}
+    //{dynamicAttribute}
+    view! {
+        <textarea class=class id=id name=name prop:value=value placeholder=placeholder/>
     }
 
-    b_textarea
+    //for (attr_name, attr_value) in attributes {
+    //    b_textarea = b_textarea.attr(attr_name, attr_value);
+    //}
+
+
+    //b_textarea
 }

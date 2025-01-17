@@ -1,4 +1,8 @@
 use leptos::*;
+use leptos::children::*;
+use leptos::prelude::ClassAttribute;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BColumns(children: Children, #[prop(optional, into)] class: TextProp) -> impl IntoView {

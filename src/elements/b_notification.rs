@@ -1,14 +1,16 @@
 use leptos::*;
 
 use crate::enums::BColor;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BNotification(
     children: ChildrenFn,
     #[prop(optional, into)] class: TextProp,
 
-    #[prop(default = BColor::Default.into(), into)] color: MaybeSignal<BColor>,
-    #[prop(optional, into)] is_light: MaybeSignal<bool>,
+    #[prop(default = BColor::Default.into(), into)] color: Signal<BColor>,
+    #[prop(optional, into)] is_light: Signal<bool>,
     #[prop(into)] is_active: RwSignal<bool>,
 ) -> impl IntoView {
     let class_list = move || {
@@ -27,7 +29,7 @@ pub fn BNotification(
         class_list
     };
 
-    let class_list = store_value(class_list);
+    let class_list = StoredValue::new(class_list);
 
     view! {
         <Show when=move || { is_active.get() }>

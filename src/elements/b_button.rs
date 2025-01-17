@@ -1,6 +1,9 @@
 use leptos::*;
-
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 use crate::enums::{BColor, BSize, BState};
+use leptos::html::*;
+
 
 fn get_button_class_list(
     class: Oco<'static, str>,
@@ -63,19 +66,19 @@ fn get_button_class_list(
 pub fn BAButton(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BColor::Default.into(), into)] color: MaybeSignal<BColor>,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(default = BState::Default.into(), into)] state: MaybeSignal<BState>,
-    #[prop(optional, into)] is_dark: MaybeSignal<bool>,
-    #[prop(optional, into)] is_fullwidth: MaybeSignal<bool>,
-    #[prop(optional, into)] is_inverted: MaybeSignal<bool>,
-    #[prop(optional, into)] is_light: MaybeSignal<bool>,
-    #[prop(optional, into)] is_outlined: MaybeSignal<bool>,
-    #[prop(optional, into)] is_responsive: MaybeSignal<bool>,
-    #[prop(optional, into)] is_rounded: MaybeSignal<bool>,
-    #[prop(optional, into)] href: Option<TextProp>,
-    #[prop(optional, into)] target: Option<TextProp>,
-    #[prop(optional, into)] title: Option<TextProp>,
+    #[prop(default = BColor::Default.into(), into)] color: Signal<BColor>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(default = BState::Default.into(), into)] state: Signal<BState>,
+    #[prop(optional, into)] is_dark: Signal<bool>,
+    #[prop(optional, into)] is_fullwidth: Signal<bool>,
+    #[prop(optional, into)] is_inverted: Signal<bool>,
+    #[prop(optional, into)] is_light: Signal<bool>,
+    #[prop(optional, into)] is_outlined: Signal<bool>,
+    #[prop(optional, into)] is_responsive: Signal<bool>,
+    #[prop(optional, into)] is_rounded: Signal<bool>,
+    #[prop(optional, into)] href: TextProp,
+    #[prop(optional, into)] target: TextProp,
+    #[prop(optional, into)] title: TextProp,
 ) -> impl IntoView {
     let button_class_list = move || {
         get_button_class_list(
@@ -92,9 +95,9 @@ pub fn BAButton(
             is_rounded.get(),
         )
     };
-
+//disabled=move || {state.get() == BState::Disabled}
     view! {
-        <a class=button_class_list href=href target=target title=title disabled=move || state.get() == BState::Disabled>
+        <a class=button_class_list href=href.get() target=target.get() title=title.get() >
             {children()}
         </a>
     }
@@ -102,20 +105,20 @@ pub fn BAButton(
 
 #[component]
 pub fn BButton(
-    #[prop(optional, into)] button_type: Option<AttributeValue>,
+    #[prop(optional, into)] button_type: Option<String>,
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BColor::Default.into(), into)] color: MaybeSignal<BColor>,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(default = BState::Default.into(), into)] state: MaybeSignal<BState>,
-    #[prop(optional, into)] is_dark: MaybeSignal<bool>,
-    #[prop(optional, into)] is_fullwidth: MaybeSignal<bool>,
-    #[prop(optional, into)] is_inverted: MaybeSignal<bool>,
-    #[prop(optional, into)] is_light: MaybeSignal<bool>,
-    #[prop(optional, into)] is_outlined: MaybeSignal<bool>,
-    #[prop(optional, into)] is_responsive: MaybeSignal<bool>,
-    #[prop(optional, into)] is_rounded: MaybeSignal<bool>,
-    #[prop(optional, into)] title: Option<TextProp>,
+    #[prop(default = BColor::Default.into(), into)] color: Signal<BColor>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(default = BState::Default.into(), into)] state: Signal<BState>,
+    #[prop(optional, into)] is_dark: Signal<bool>,
+    #[prop(optional, into)] is_fullwidth: Signal<bool>,
+    #[prop(optional, into)] is_inverted: Signal<bool>,
+    #[prop(optional, into)] is_light: Signal<bool>,
+    #[prop(optional, into)] is_outlined: Signal<bool>,
+    #[prop(optional, into)] is_responsive: Signal<bool>,
+    #[prop(optional, into)] is_rounded: Signal<bool>,
+    #[prop(optional, into)] title: TextProp,
 ) -> impl IntoView {
     let button_class_list = move || {
         get_button_class_list(
@@ -134,7 +137,7 @@ pub fn BButton(
     };
 
     view! {
-        <button class=button_class_list type=button_type title=title disabled=move || state.get() == BState::Disabled>
+        <button class=button_class_list type=button_type title=title.get() disabled=move || state.get() == BState::Disabled>
             {children()}
         </button>
     }
@@ -144,8 +147,8 @@ pub fn BButton(
 pub fn BButtons(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] has_addons: MaybeSignal<bool>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] has_addons: Signal<bool>,
 ) -> impl IntoView {
     let buttons_class_list = move || {
         let mut class_list = "buttons".to_owned();

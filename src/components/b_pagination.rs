@@ -1,10 +1,13 @@
 use leptos::*;
-use leptos_router::use_location;
+use leptos::html::*;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
+use leptos_router::hooks::use_location;
 
 #[component]
 pub fn BPagination(
     #[prop(optional, into)] class: TextProp,
-    #[prop(into)] count: MaybeSignal<i16>,
+    #[prop(into)] count: Signal<i16>,
     #[prop(default = 3)] list_size: i16,
 ) -> impl IntoView {
     let location = use_location();
@@ -12,12 +15,12 @@ pub fn BPagination(
     let current_page = move || {
         location
             .query
-            .with(|q| q.get("page").cloned().unwrap_or("1".to_owned()))
+            .with(|q| q.get("page").unwrap_or("1".to_owned()))
             .parse::<i16>()
             .unwrap_or(1)
     };
 
-    let page = create_rw_signal(current_page());
+    let page =  RwSignal::new(current_page());
 
     let href = move |p: i16| format!("{}?page={}", location.pathname.get(), p);
 
@@ -104,7 +107,7 @@ pub fn BPagination(
     let show_last_ellipsis =
         move || count_is_greater() && page.get() < count.get() - right_side_size - 1;
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         page.set(current_page());
     });
 

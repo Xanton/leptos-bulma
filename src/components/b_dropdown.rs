@@ -1,23 +1,24 @@
-use leptos::html::Div;
+use leptos::html::*;
 use leptos::*;
-
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 use crate::elements::BButton;
 
 #[component]
 pub fn BDropdown<F, IV>(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(optional, into)] is_right: MaybeSignal<bool>,
-    #[prop(optional, into)] is_up: MaybeSignal<bool>,
-    #[prop(optional, into)] is_hoverable: MaybeSignal<bool>,
+    #[prop(optional, into)] is_right: Signal<bool>,
+    #[prop(optional, into)] is_up: Signal<bool>,
+    #[prop(optional, into)] is_hoverable: Signal<bool>,
     trigger: F,
 ) -> impl IntoView
 where
-    F: Fn() -> IV + 'static,
-    IV: IntoView,
+    F: Fn() -> IV + 'static + std::marker::Send,
+    IV: IntoView + 'static,
 {
-    let node_ref = create_node_ref::<Div>();
-    let is_active = create_rw_signal(false);
+    let node_ref:NodeRef<Div> = NodeRef::new();
+    let is_active = RwSignal::new(false);
 
     let _ = leptos_use::on_click_outside(node_ref, move |_| {
         is_active.set(false);

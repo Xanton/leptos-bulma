@@ -1,18 +1,20 @@
 use leptos::*;
 
 use crate::enums::{BColor, BSize};
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BTag(
     #[prop(optional)] children: Option<Children>,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BColor::Default.into(), into)] color: MaybeSignal<BColor>,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] is_dark: MaybeSignal<bool>,
-    #[prop(optional, into)] is_delete: MaybeSignal<bool>,
-    #[prop(optional, into)] is_hoverable: MaybeSignal<bool>,
-    #[prop(optional, into)] is_light: MaybeSignal<bool>,
-    #[prop(optional, into)] is_rounded: MaybeSignal<bool>,
+    #[prop(default = BColor::Default.into(), into)] color: Signal<BColor>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] is_dark: Signal<bool>,
+    #[prop(optional, into)] is_delete: Signal<bool>,
+    #[prop(optional, into)] is_hoverable: Signal<bool>,
+    #[prop(optional, into)] is_light: Signal<bool>,
+    #[prop(optional, into)] is_rounded: Signal<bool>,
 ) -> impl IntoView {
     let tag_class_list = move || {
         let mut class_list = "tag".to_owned();
@@ -54,8 +56,8 @@ pub fn BTag(
 pub fn BTags(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] has_addons: MaybeSignal<bool>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] has_addons: Signal<bool>,
 ) -> impl IntoView {
     let tags_class_list = move || {
         let mut class_list = "tags".to_owned();

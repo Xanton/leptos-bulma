@@ -1,10 +1,12 @@
 use leptos::*;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BTitle(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(optional, into)] id: Option<TextProp>,
+    #[prop(optional, into)] id: TextProp,
     #[prop(optional)] is: Option<i8>,
 ) -> impl IntoView {
     let title_class = move || {
@@ -18,7 +20,7 @@ pub fn BTitle(
     };
 
     view! {
-        <div class=title_class id=id>
+        <div class=title_class id=id.get()>
             {children()}
         </div>
     }

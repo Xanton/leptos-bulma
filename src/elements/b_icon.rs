@@ -1,5 +1,7 @@
 use leptos::*;
-
+use leptos::html::*;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 use crate::enums::BSize;
 
 fn get_icon_class_list(class: Oco<'static, str>, size: BSize, is_scaled: bool) -> String {
@@ -22,9 +24,9 @@ fn get_icon_class_list(class: Oco<'static, str>, size: BSize, is_scaled: bool) -
 #[component]
 pub fn BIcon(
     #[prop(optional, into)] class: TextProp,
-    #[prop(into)] icon: MaybeSignal<icondata_core::Icon>,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] is_scaled: MaybeSignal<bool>,
+    #[prop(into)] icon: Signal<icondata_core::Icon>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] is_scaled: Signal<bool>,
 ) -> impl IntoView {
     use leptos_icons::Icon;
 
@@ -41,8 +43,8 @@ pub fn BIcon(
 #[component]
 pub fn BIcon(
     #[prop(optional, into)] class: TextProp,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] is_scaled: MaybeSignal<bool>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] is_scaled: Signal<bool>,
     children: Children,
 ) -> impl IntoView {
     let icon_class_list = move || get_icon_class_list(class.get(), size.get(), is_scaled.get());
@@ -56,9 +58,9 @@ pub fn BIconText<F, IV>(
     #[prop(optional, into)] class: TextProp,
     #[prop(optional, into)] icon_class: TextProp,
     #[prop(optional, into)] text_class: TextProp,
-    #[prop(into)] icon: MaybeSignal<icondata_core::Icon>,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] is_scaled: MaybeSignal<bool>,
+    #[prop(into)] icon: Signal<icondata_core::Icon>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] is_scaled: Signal<bool>,
     text: F,
 ) -> impl IntoView
 where
@@ -68,7 +70,7 @@ where
     view! {
         <span class=move || format!("icon-text {}", class.get())>
             <BIcon class=icon_class size=size is_scaled=is_scaled icon=icon/>
-            <span class=text_class>{text()}</span>
+            <span class=text_class.get()>{text()}</span>
         </span>
     }
 }
@@ -79,8 +81,8 @@ pub fn BIconText<F, IV>(
     #[prop(optional, into)] class: TextProp,
     #[prop(optional, into)] icon_class: TextProp,
     #[prop(optional, into)] text_class: TextProp,
-    #[prop(default = BSize::Default.into(), into)] size: MaybeSignal<BSize>,
-    #[prop(optional, into)] is_scaled: MaybeSignal<bool>,
+    #[prop(default = BSize::Default.into(), into)] size: Signal<BSize>,
+    #[prop(optional, into)] is_scaled: Signal<bool>,
     text: F,
     children: Children,
 ) -> impl IntoView
@@ -93,7 +95,7 @@ where
             <BIcon size=size is_scaled=is_scaled class=icon_class>
                 {children()}
             </BIcon>
-            <span class=text_class>{text()}</span>
+            <span class=text_class.get()>{text()}</span>
         </span>
     }
 }

@@ -3,26 +3,26 @@ use leptos::*;
 use super::{BControl, BField, BHelp, BLabel};
 
 use crate::EventFn;
-
+use leptos::prelude::*;
 #[allow(unused_variables)]
 #[component]
 pub fn BTextField(
     #[prop(optional)] node_ref: NodeRef<leptos::html::Input>,
-    #[prop(optional, into)] error: MaybeSignal<Option<String>>,
-    #[prop(optional, into)] id: Option<&'static str>,
+    #[prop(optional, into)] error: Signal<Option<String>>,
+    #[prop(optional, into)] id: &'static str,
     #[prop(default = "text")] input_type: &'static str,
     #[prop(optional)] label: Option<&'static str>,
-    #[prop(optional)] name: Option<&'static str>,
-    #[prop(optional)] placeholder: Option<&'static str>,
-    #[prop(optional, into)] value: MaybeSignal<String>,
+    #[prop(optional)] name: &'static str,
+    #[prop(optional)] placeholder: &'static str,
+    #[prop(optional, into)] value: Signal<String>,
     #[prop(optional, into)] on_change: Option<EventFn>,
     #[prop(optional, into)] on_input: Option<EventFn>,
     #[prop(optional, into)] addon_left: Option<ViewFn>,
     #[prop(optional, into)] addon_right: Option<ViewFn>,
 ) -> impl IntoView {
-    let error_text = create_rw_signal(None);
+    let error_text = RwSignal::new(None);
 
-    create_effect(move |_| {
+    Effect::new(move |_| {
         error_text.set(error.get().map(|e| e.trim().to_owned()));
     });
 
@@ -50,10 +50,14 @@ pub fn BTextField(
 
     let input_view = view! {
         <input node_ref=node_ref class=input_class id=id type=input_type name=name placeholder=placeholder value=value/>
-    }
-    .optional_event(ev::change, on_change.map(EventFn::into_inner))
-    .optional_event(ev::input, on_input.map(EventFn::into_inner));
+    };
 
+    if on_change.is_some() {
+        node_ref.on_load(|element| { let _ = element.on(ev::change, on_change.unwrap().into_inner());});
+    }
+    if on_input.is_some() {
+        node_ref.on_load(|element| { let _ = element.on(ev::input,on_input.unwrap().into_inner()); });
+    }
     view! {
         <BField>
             <Show when=move || label.is_some()>

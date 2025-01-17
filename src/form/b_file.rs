@@ -3,6 +3,7 @@ use leptos::*;
 use web_sys::{Event, MouseEvent};
 
 use crate::EventFn;
+use leptos::prelude::*;
 
 #[cfg(feature = "icondata-fa")]
 #[component]
@@ -27,9 +28,9 @@ pub fn BFile(
     #[prop(optional)] name: Option<&'static str>,
     #[prop(optional, into)] on_change: Option<EventFn>,
 ) -> impl IntoView {
-    let node_ref = create_node_ref::<Input>();
-    let has_file = create_rw_signal(false);
-    let file_name = create_rw_signal("".to_owned());
+    let node_ref: NodeRef<Input> = NodeRef::new();
+    let has_file = RwSignal::new(false);
+    let file_name = RwSignal::new("".to_owned());
 
     let input_on_change = move |event| {
         let element_files = node_ref.get().and_then(|element| element.files());

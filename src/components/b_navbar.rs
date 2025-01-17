@@ -1,5 +1,7 @@
-use leptos::html::{Div, A};
+use leptos::html::*;
 use leptos::*;
+use leptos::prelude::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BNavbar(children: Children, #[prop(optional, into)] class: TextProp) -> impl IntoView {
@@ -13,7 +15,7 @@ pub fn BNavbarBrand(children: Children) -> impl IntoView {
 
 #[component]
 pub fn BNavbarBurger(is_active: RwSignal<bool>) -> impl IntoView {
-    let burger_ref = create_node_ref::<A>();
+    let burger_ref:NodeRef<A> = NodeRef::new();
 
     let _ = leptos_use::on_click_outside(burger_ref, move |_| {
         is_active.set(false);
@@ -48,12 +50,12 @@ pub fn BNavbarEnd(children: Children, #[prop(optional, into)] class: TextProp) -
 pub fn BNavbarItem(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(optional, into)] href: Option<TextProp>,
-    #[prop(optional, into)] target: Option<TextProp>,
-    #[prop(optional, into)] title: Option<TextProp>,
+    #[prop(optional, into)] href: TextProp,
+    #[prop(optional, into)] target: TextProp,
+    #[prop(optional, into)] title: TextProp,
 ) -> impl IntoView {
     view! {
-        <a class=format!("navbar-item {}", class.get()) href=href target=target title=title>
+        <a class=format!("navbar-item {}", class.get()) href=href.get() target=target.get() title=title.get()>
             {children()}
         </a>
     }
@@ -63,16 +65,16 @@ pub fn BNavbarItem(
 pub fn BNavbarItemDropdown<F, IV>(
     children: Children,
     #[prop(optional, into)] dropdown_class: TextProp,
-    #[prop(optional, into)] href: Option<TextProp>,
-    #[prop(optional, into)] is_hoverable: MaybeSignal<bool>,
+    #[prop(optional, into)] href: TextProp,
+    #[prop(optional, into)] is_hoverable: Signal<bool>,
     trigger: F,
 ) -> impl IntoView
 where
     F: Fn() -> IV,
     IV: IntoView,
 {
-    let node_ref = create_node_ref::<Div>();
-    let is_active = create_rw_signal(false);
+    let node_ref:NodeRef<Div> = NodeRef::new();
+    let is_active = RwSignal::new(false);
 
     let _ = leptos_use::on_click_outside(node_ref, move |_| {
         is_active.set(false);
@@ -94,7 +96,7 @@ where
             class:is-hoverable=is_hoverable
             on:click=toggle_dropdown
         >
-            <a class="navbar-link" href=href>
+            <a class="navbar-link" href=href.get()>
                 {trigger()}
             </a>
 
@@ -107,7 +109,7 @@ where
 pub fn BNavbarMenu(
     children: Children,
     #[prop(optional, into)] class: TextProp,
-    #[prop(optional, into)] is_active: Option<MaybeSignal<bool>>,
+    #[prop(optional, into)] is_active: Option<Signal<bool>>,
 ) -> impl IntoView {
     view! {
         <div

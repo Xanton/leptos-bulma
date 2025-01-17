@@ -1,4 +1,8 @@
 use leptos::*;
+use leptos::attr::{Attr, AttributeKey};
+use leptos::prelude::*;
+use leptos::html::*;
+use leptos::text_prop::TextProp;
 
 #[component]
 pub fn BAsideMenu(children: Children, #[prop(optional, into)] class: TextProp) -> impl IntoView {
@@ -26,9 +30,11 @@ pub fn BMenuLink(
     #[prop(optional, into)] class: TextProp,
     #[prop(optional, into)] href: TextProp,
 ) -> impl IntoView {
+    //{Attr{0:format!{"{}","exact"},1:format!{"{}",true}}}
+    //active_class="is-active"
     view! {
         <li>
-            <a active_class="is-active" class=class exact=true href=href>
+            <a class={class.get()} href=href.get()  >
                 {children()}
             </a>
         </li>
