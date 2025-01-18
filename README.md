@@ -20,3 +20,5 @@ And any suggestions are appreciated.
 ## How to install
 
 Go to [leptos-bulma.fermyon.app/guides](https://leptos-bulma.fermyon.app/guides) and follow the instructions.
+
+The current webside examlpe is not fully working
