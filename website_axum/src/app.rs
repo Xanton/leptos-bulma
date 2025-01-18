@@ -113,6 +113,10 @@ pub fn App() -> impl IntoView {
                 </Routes>
             </Layout>
         </Router>
+        // add syntax highlighting here: 
+        <script src="/highlight/highlight.min.js"></script>
+        <link rel="stylesheet" href="/highlight/styles/default.css"/>
+        <script>hljs.highlightAll();</script>
         </body>
     }
 }
