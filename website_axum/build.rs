@@ -1,4 +1,4 @@
-/*use std::io;
+use std::io;
 use std::path::{Path, PathBuf};
 use std::fs;
 
@@ -21,12 +21,12 @@ fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> 
 
     Ok(())
 }
-*/
+
 
 fn main() {
     leptos_bulma::build("./style");
-    //let src_dir = Path::new("/home/dzelle/Projekt/leptos-bulma/website_axum/src/examples");
-    //let dst_dir = Path::new("/home/dzelle/Projekt/leptos-bulma/website_axum/target/site/examples");
+    let src_dir = Path::new("js/");
+    let dst_dir = Path::new("target/site/highlight/");
 
-    //copy_dir_all(src_dir, dst_dir);
+    copy_dir_all(src_dir, dst_dir);
 }

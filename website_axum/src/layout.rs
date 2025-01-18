@@ -197,5 +197,13 @@ pub fn Layout(children: Children) -> impl IntoView {
                 </BColumns>
             </div>
         </footer>
+        // add syntax highlighting here:
+        <script src="/highlight/highlight.min.js"></script>
+        <link rel="stylesheet" href={if app_color_mode.mode.get()==ColorMode::Light{
+            "/highlight/styles/1c-light.min.css"
+        }else{
+            "/highlight/styles/dark.min.css"
+        }}/>
+        <script>hljs.highlightAll();</script>
     }
 }
