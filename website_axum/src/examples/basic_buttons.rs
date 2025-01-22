@@ -1,7 +1,6 @@
 use leptos::*;
 use leptos_bulma::elements::{BAButton, BButton, BButtons};
 use leptos_bulma::enums::BColor;
-use leptos::prelude::*;
 
 #[component]
 pub fn BasicButtons() -> impl IntoView {

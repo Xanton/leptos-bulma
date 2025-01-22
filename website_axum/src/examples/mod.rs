@@ -1,14 +1,14 @@
 use leptos::*;
 use leptos::attr::Name;
 use leptos::prelude::*;
-use leptos::html::*;
+//use leptos::html::*;
 use leptos_meta::*;
 use leptos_router::*;
 use leptos::task::*;
 use server_fn::{
     client::{browser::BrowserClient, Client},
     codec::{
-        Encoding, FromReq, FromRes, GetUrl, IntoReq, IntoRes, MultipartData,
+        FromReq, FromRes, GetUrl, IntoReq, IntoRes, MultipartData,
         MultipartFormData, Postcard, Rkyv, SerdeLite, StreamingText,
         TextStream,
     },
@@ -87,22 +87,6 @@ pub use tag_addons::TagAddons;
 pub use tag_colors::TagColors;
 pub use tag_sizes::TagSizes;
 
-//#[server]
-//async fn get_code_example<'a>(name: &'a str) -> Result<String, ServerFnError> {
-//    let opts = RequestInit::new();
-//    let code_example_path = format!("/examples/{name}.rs");
-//    let request = Request::new_with_str_and_init(&code_example_path, &opts)?;
-    
-//    return request;
-    //let response = JsFuture::from(window().fetch_with_request(&request))
-    //    .await?
-    //    .dyn_into::<Response>()?;
-    //JsFuture::from(response.text()?)
-    //    .await?
-    //    .as_string()
-    //    .ok_or(JsValue::UNDEFINED)
-//}
-
 #[server(
     // this server function will be exposed at /api2/custom_path
     prefix = "/api",
@@ -120,6 +104,8 @@ pub async fn get_code_example(input: String) -> Result<String, ServerFnError> {
     //let absolute = path::absolute(".")?;
     //println!("absolute: {}", absolute.display());
     let data = std::fs::read_to_string(code_example_path);
+
+    //let html = highlighted_html_for_file(code_example_path, &ss, theme);
     match data {
         Ok(_) => {Ok(data.unwrap())},
         Err(e) => {Err(ServerFnError::ServerError(e.to_string()))},
@@ -127,17 +113,21 @@ pub async fn get_code_example(input: String) -> Result<String, ServerFnError> {
 
 }
 
+
 #[component]
 pub fn RustCodeExample(name: &'static str) -> impl IntoView {
     let resource = Resource::new_blocking(|| (),move |_| async move { get_code_example(format!("{}",name)).await.unwrap_or(format!("{}","Server Error"))});
 
+    //let code =highlighted_html_for_string(format!("{}",data).as_str(),&ss,&syntax,&theme).unwrap();
     view! {
         <Suspense fallback=move || {
             view! { <CodeBlock>"Loading..."</CodeBlock> }
         }>
             {move || Suspend::new(async move {
                 let data = resource.await;
-                view! { <CodeBlock language="rust">{format!("{}",data)}</CodeBlock> }
+                view! { <CodeBlock language="rust">{format!("{}",data)}</CodeBlock>
+                        //<script>hljs.highlightAll();</script>
+                }
             })}
         </Suspense>
     }

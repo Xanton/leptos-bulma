@@ -1,6 +1,5 @@
 use leptos::*;
 use leptos_bulma::elements::{BTag, BTags};
-use leptos::prelude::*;
 
 #[component]
 pub fn BasicTags() -> impl IntoView {

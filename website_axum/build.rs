@@ -28,5 +28,5 @@ fn main() {
     let src_dir = Path::new("js/");
     let dst_dir = Path::new("target/site/highlight/");
 
-    copy_dir_all(src_dir, dst_dir);
+    let _ = copy_dir_all(src_dir, dst_dir);
 }

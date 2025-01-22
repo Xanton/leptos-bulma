@@ -1,6 +1,6 @@
 use leptos::*;
 use leptos_bulma::elements::BProgress;
-use leptos::prelude::*;
+//use leptos::prelude::*;
 
 #[component]
 pub fn ProgressIndeterminate() -> impl IntoView {

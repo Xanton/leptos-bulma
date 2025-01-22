@@ -1,6 +1,6 @@
 use leptos::*;
 use leptos_bulma::elements::BBox;
-use leptos::prelude::*;
+//use leptos::prelude::*;
 
 #[component]
 pub fn BasicBox() -> impl IntoView {

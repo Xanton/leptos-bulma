@@ -1,6 +1,5 @@
 use leptos::*;
 use leptos_bulma::elements::{BSubtitle, BTitle};
-use leptos::prelude::*;
 
 #[component]
 pub fn BasicTitle() -> impl IntoView {

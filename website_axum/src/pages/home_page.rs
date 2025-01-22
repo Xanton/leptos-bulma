@@ -3,7 +3,7 @@ use leptos::*;
 use crate::components::PageTitle;
 use crate::i18n::{t, use_i18n, t_string};
 use leptos::prelude::*;
-use leptos::html::*;
+//use leptos::html::*;
 
 #[component]
 pub fn HomePage() -> impl IntoView {
