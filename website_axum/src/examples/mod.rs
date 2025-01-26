@@ -1,7 +1,7 @@
 use leptos::*;
 use leptos::attr::Name;
 use leptos::prelude::*;
-//use leptos::html::*;
+use leptos::html::*;
 use leptos_meta::*;
 use leptos_router::*;
 use leptos::task::*;
@@ -16,6 +16,8 @@ use server_fn::{
     response::{browser::BrowserResponse, ClientRes, Res},
 };
 use std::path::Path;
+use leptos::web_sys::HtmlElement;
+use leptos_use::UseColorModeReturn;
 
 use crate::components::CodeBlock;
 
@@ -87,6 +89,14 @@ pub use tag_addons::TagAddons;
 pub use tag_colors::TagColors;
 pub use tag_sizes::TagSizes;
 
+
+use syntect::highlighting::{Theme, ThemeSet};
+use syntect::html::highlighted_html_for_string;
+use syntect::parsing::SyntaxSet;
+use leptos_use::{ColorMode};
+use crate::app::use_app_color_mode;
+use wasm_bindgen::prelude::*;
+
 #[server(
     // this server function will be exposed at /api2/custom_path
     prefix = "/api",
@@ -97,38 +107,67 @@ pub use tag_sizes::TagSizes;
     // (this needs to be enabled with the `serde-lite` feature on the `server_fn` crate
     output = SerdeLite,
 )]
-pub async fn get_code_example(input: String) -> Result<String, ServerFnError> {
+pub async fn get_code_example(input: String) -> Result<(String,String), ServerFnError> {
     //println!("get code");
     let code_example_path = format!("./src/examples/{input}.rs");
     //use std::path::{self, Path};
     //let absolute = path::absolute(".")?;
     //println!("absolute: {}", absolute.display());
     let data = std::fs::read_to_string(code_example_path);
-
-    //let html = highlighted_html_for_file(code_example_path, &ss, theme);
-    match data {
-        Ok(_) => {Ok(data.unwrap())},
-        Err(e) => {Err(ServerFnError::ServerError(e.to_string()))},
+    if data.is_ok() {
+        let ss = SyntaxSet::load_defaults_newlines();
+        let syntax = ss.find_syntax_by_extension("rs");
+        let ts = ThemeSet::load_defaults();
+        let themeLight= &ts.themes["base16-ocean.light"];
+        let themeDark = &ts.themes["base16-ocean.dark"];
+        let code = data.unwrap();
+        let hlL = highlighted_html_for_string(code.clone().as_str(), &ss, &(syntax.unwrap()), themeLight);
+        let hlD = highlighted_html_for_string(code.clone().as_str(), &ss, &(syntax.unwrap()), themeDark);
+        Ok((hlL.unwrap(),hlD.unwrap()))
+    }else{
+        Err(ServerFnError::ServerError(data.err().unwrap().to_string()))
     }
-
+    //let html = highlighted_html_for_file(code_example_path, &ss, theme);
 }
-
 
 #[component]
 pub fn RustCodeExample(name: &'static str) -> impl IntoView {
-    let resource = Resource::new_blocking(|| (),move |_| async move { get_code_example(format!("{}",name)).await.unwrap_or(format!("{}","Server Error"))});
+    let resource = Resource::new(|| (),move |_| async move {
+        let tmp=get_code_example(format!("{}",name)).await;
+        if tmp.is_ok(){
+            tmp.unwrap()
+        }
+        else {
+            let error =tmp.err().unwrap().to_string();
+            (format!("{}",error.clone()),format!("{}",error.clone()))
+        }
+    });
+    let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
 
-    //let code =highlighted_html_for_string(format!("{}",data).as_str(),&ss,&syntax,&theme).unwrap();
     view! {
-        <Suspense fallback=move || {
-            view! { <CodeBlock>"Loading..."</CodeBlock> }
-        }>
+        //<Suspense fallback=move || {
+        //    view! { <CodeBlock>"Loading..."</CodeBlock> }
+        //}>
             {move || Suspend::new(async move {
                 let data = resource.await;
-                view! { <CodeBlock language="rust">{format!("{}",data)}</CodeBlock>
-                        //<script>hljs.highlightAll();</script>
+                let node_ref:NodeRef<Code> = NodeRef::new();
+
+                Effect::new(move |colormode| {
+                    let colormode=mode.get();
+                    if let Some(element) = node_ref.get() {
+                        if let Some(el) = element.dyn_ref::<HtmlElement>() {
+                            if colormode==ColorMode::Light{
+                                el.set_inner_html(data.0.as_str());
+                            } else {
+                                el.set_inner_html(data.1.as_str());
+                            }
+                        }
+                    }
+                });
+                view! {
+                    <CodeBlock node_ref=node_ref language="rs">"Loading..."</CodeBlock>
                 }
             })}
-        </Suspense>
+        //</Suspense>
     }
 }

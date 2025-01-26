@@ -6,8 +6,8 @@ use leptos_meta::*;
 use leptos_router::{components::{FlatRoutes, ProtectedRoute, Route, Router, Routes}, hooks::use_params, params::Params, path, ParamSegment, SsrMode, StaticSegment};
 use leptos_bulma::columns::{BColumn, BColumns};
 use leptos_bulma::components::{
-    BDropdown, BDropdownItem, BNavbar, BNavbarBrand, BNavbarBurger, BNavbarEnd, BNavbarItem,
-    BNavbarItemDropdown, BNavbarMenu, BNavbarStart,
+    BDropdown, BDropdownItem//, BNavbar, BNavbarBrand, BNavbarBurger, BNavbarEnd, BNavbarItem,
+    //BNavbarItemDropdown, BNavbarMenu, BNavbarStart,
 };
 use leptos_bulma::elements::{BButton, BButtons, BIcon};
 use leptos_bulma::enums::{BSize, BState};
@@ -18,7 +18,7 @@ use leptos_bulma::icons::icondata_fa;
 use crate::i18n::{t, use_i18n, Locale};
 
 
-use serde::{Deserialize, Serialize};
+//use serde::{Deserialize, Serialize};
 #[cfg(feature = "ssr")]
 use std::sync::atomic::{AtomicBool, Ordering};
 use leptos_use::UseColorModeReturn;
@@ -109,19 +109,19 @@ pub fn App() -> impl IntoView {
         <Router>//trailing_slash=TrailingSlash::Redirect
             <Layout>
                 <Routes fallback=fallback>
-                    <Route path=path!("/columns") view=ColumnsPage ssr=SsrMode::Async/>
-                    <Route path=path!("/components") view=ComponentsPage ssr=SsrMode::Async/>
-                    <Route path=path!("/components/breadcrumb") view=components::BreadcrumbPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements") view=ElementsPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements/button") view=elements::ButtonPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements/icon") view=elements::IconPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements/notification") view=elements::NotificationPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements/progress") view=elements::ProgressPage ssr=SsrMode::Async/>
-                    <Route path=path!("/elements/tag") view=elements::TagPage ssr=SsrMode::Async/>
-                    <Route path=path!("/form") view=FormPage ssr=SsrMode::Async/>
-                    <Route path=path!("/guides") view=GuidesPage ssr=SsrMode::Async/>
-                    <Route path=path!("/layout") view=LayoutPage ssr=SsrMode::Async/>
-                    <Route path=path!("/") view=HomePage ssr=SsrMode::Async/>
+                    <Route path=path!("/columns") view=ColumnsPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/components") view=ComponentsPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/components/breadcrumb") view=components::BreadcrumbPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements") view=ElementsPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements/button") view=elements::ButtonPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements/icon") view=elements::IconPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements/notification") view=elements::NotificationPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements/progress") view=elements::ProgressPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/elements/tag") view=elements::TagPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/form") view=FormPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/guides") view=GuidesPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/layout") view=LayoutPage ssr=SsrMode::InOrder/>
+                    <Route path=path!("/") view=HomePage ssr=SsrMode::InOrder/>
                 </Routes>
             </Layout>
         </Router>
@@ -236,13 +236,6 @@ fn ImageColorModes(
     let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
     view! {
         <picture>
-            /*Show when=move || [ColorMode::Dark, ColorMode::Auto].contains(&mode.get())>
-                <source srcset=dark_src media="(prefers-color-scheme: dark)" />
-            </Show>
-
-            <Show when=move || [ColorMode::Light, ColorMode::Auto].contains(&mode.get())>
-                <source srcset=light_src media="(prefers-color-scheme: light)" />
-            </Show>*/
 
             <img
                 src=move || { match mode.get(){

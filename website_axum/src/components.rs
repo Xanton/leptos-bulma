@@ -3,13 +3,10 @@ use leptos::*;
 use leptos::prelude::*;
 use leptos_bulma::elements::BBlock;
 use leptos_meta::Title;
-use wasm_bindgen::{prelude::wasm_bindgen, JsCast};
+//use wasm_bindgen::{prelude::wasm_bindgen, JsCast};
 use web_sys::HtmlElement;
 use leptos::text_prop::TextProp;
-use leptos_use::{ColorMode, UseColorModeReturn};
-use syntect::highlighting::{Theme, ThemeSet};
-use syntect::html::highlighted_html_for_string;
-use syntect::parsing::SyntaxSet;
+use leptos_use::UseColorModeReturn;
 use crate::app::use_app_color_mode;
 use crate::i18n::{t, use_i18n};
 
@@ -18,62 +15,58 @@ pub fn PageTitle(#[prop(into)] text: TextProp) -> impl IntoView {
     view! { <Title text=format!("{} | Leptos Bulma", text.get())/> }
 }
 
+use syntect::highlighting::{Theme, ThemeSet};
+use syntect::html::highlighted_html_for_string;
+use syntect::parsing::SyntaxSet;
+use leptos_use::{ColorMode};
 
 
-fn highlightCode(data: String, theme: &Theme) -> String {
-    let ss = SyntaxSet::load_defaults_newlines();
-    let syntax =ss.find_syntax_by_extension("rs").unwrap();
-    highlighted_html_for_string(format!("{}",data).as_str(),&ss,&syntax,&theme).unwrap()
-}
+
 
 #[component]
 pub fn CodeBlock(
     children: Children,
+    #[prop(optional, into)] node_ref :NodeRef<Code>,
     #[prop(default = "plaintext")] language: &'static str,
 ) -> impl IntoView {
-    let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
 
-    let node_ref_d:NodeRef<Code> = NodeRef::new();
 
-    Effect::new(move |_| {
-        if let Some(element) = node_ref_d.get() {
+    /* let sourceCode=children().to_html().clone();
+    let ts = ThemeSet::load_defaults();
+    let themeLight= &ts.themes["base16-ocean.light"];
+    let themeDark = &ts.themes["base16-ocean.dark"];
+
+        let hlLight = get_hl(sourceCode.clone(),language,themeLight);
+        let hlDark = get_hl(sourceCode.clone(),language,themeDark);
+      if let Some(element) = node_ref.get() {
+           if let Some(el) = element.dyn_ref::<HtmlElement>() {
+               if mode.get()==ColorMode::Light{
+                   el.set_inner_html(hlLight.as_str());
+               } else {
+                   el.set_inner_html(hlDark.as_str());
+               }
+           }
+       }
+   */
+
+    /*Effect::new(move |colormode| {
+        let colormode=mode.get();
+        if let Some(element) = node_ref.get() {
             if let Some(el) = element.dyn_ref::<HtmlElement>() {
-                let ts = ThemeSet::load_defaults();
-                let themeDark = &ts.themes["base16-ocean.dark"];
-                el.set_inner_html(highlightCode(el.inner_text(),themeDark).as_str());
+                if colormode==ColorMode::Light{
+                    el.set_inner_html(hlLight.as_str());
+                } else {
+                    el.set_inner_html(hlDark.as_str());
+                }
             }
         }
-    });
-
+    });*/
 
     view! {
         <pre class="block">
-            {
-                if mode.get()==ColorMode::Light{
-                    let node_ref_l:NodeRef<Code> = NodeRef::new();
-
-                    Effect::new(move |_| {
-                        if let Some(element) = node_ref_l.get() {
-                            if let Some(el) = element.dyn_ref::<HtmlElement>() {
-                                let ts = ThemeSet::load_defaults();
-                                let themeLight = &ts.themes["base16-ocean.light"];
-                                el.set_inner_html(highlightCode(el.inner_text(), &themeLight).as_str());
-                            }
-                        }
-                    });
-                    view! {
-                        <code node_ref=node_ref_l class=format!("language-{language}")>
-                            {children()}
-                        </code>
-                    }
-                }else{
-                    view! {
-                        <code node_ref=node_ref_d class=format!("language-{language}")>
-                            {children()}
-                        </code>
-                    }
-                }
-            }
+            <code node_ref=node_ref class=format!("language-{language}")>
+                {children()}
+            </code>
         </pre>
     }
 }
