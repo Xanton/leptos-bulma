@@ -27,12 +27,12 @@ pub fn Layout(children: Children) -> impl IntoView {
 
     view! {
         // add syntax highlighting here:
-        <script src="/highlight/highlight.min.js"></script>
-        <link rel="stylesheet" href={if mode.get()==ColorMode::Light{
-            "/highlight/styles/1c-light.min.css"
-        }else{
-            "/highlight/styles/dark.min.css"
-        }}/>
+        //<script src="/highlight/highlight.min.js"></script>
+        //<link rel="stylesheet" href= move ||{if mode.get()==ColorMode::Light{
+        //    "/highlight/styles/1c-light.min.css"
+        //}else{
+        //    "/highlight/styles/dark.min.css"
+        //}}/>
         <BNavbar class="has-shadow">
             <BNavbarBrand>
                 <BNavbarItem class="media mb-0 is-align-items-center" href="/">

@@ -11,6 +11,8 @@ crate-type = ["cdylib", "rlib"]
 leptos-bulma = { path = "../../leptos-bulma", default-features = false, features = [
   "build-script",
 ] }
+syntect = { version = "5.2", default-features = false, features = ["default-fancy"]}
+
 
 [dependencies]
 slug = "0.1.6"
@@ -34,7 +36,6 @@ tokio = { version = "1.39", features = [
   "macros",
   "time",
 ], optional = true }
-syntect = { version = "5.2", default-features = false, features = ["default-fancy"]}
 wasm-bindgen = "0.2.100"
 leptos_i18n = { version = "0.5.5", default-features = false, features = [
   "cookie",

@@ -3,7 +3,6 @@ use leptos::*;
 use leptos::prelude::*;
 use leptos_bulma::elements::BBlock;
 use leptos_meta::Title;
-//use wasm_bindgen::{prelude::wasm_bindgen, JsCast};
 use web_sys::HtmlElement;
 use leptos::text_prop::TextProp;
 use leptos_use::UseColorModeReturn;
@@ -15,9 +14,6 @@ pub fn PageTitle(#[prop(into)] text: TextProp) -> impl IntoView {
     view! { <Title text=format!("{} | Leptos Bulma", text.get())/> }
 }
 
-use syntect::highlighting::{Theme, ThemeSet};
-use syntect::html::highlighted_html_for_string;
-use syntect::parsing::SyntaxSet;
 use leptos_use::{ColorMode};
 
 
@@ -29,39 +25,6 @@ pub fn CodeBlock(
     #[prop(optional, into)] node_ref :NodeRef<Code>,
     #[prop(default = "plaintext")] language: &'static str,
 ) -> impl IntoView {
-
-
-    /* let sourceCode=children().to_html().clone();
-    let ts = ThemeSet::load_defaults();
-    let themeLight= &ts.themes["base16-ocean.light"];
-    let themeDark = &ts.themes["base16-ocean.dark"];
-
-        let hlLight = get_hl(sourceCode.clone(),language,themeLight);
-        let hlDark = get_hl(sourceCode.clone(),language,themeDark);
-      if let Some(element) = node_ref.get() {
-           if let Some(el) = element.dyn_ref::<HtmlElement>() {
-               if mode.get()==ColorMode::Light{
-                   el.set_inner_html(hlLight.as_str());
-               } else {
-                   el.set_inner_html(hlDark.as_str());
-               }
-           }
-       }
-   */
-
-    /*Effect::new(move |colormode| {
-        let colormode=mode.get();
-        if let Some(element) = node_ref.get() {
-            if let Some(el) = element.dyn_ref::<HtmlElement>() {
-                if colormode==ColorMode::Light{
-                    el.set_inner_html(hlLight.as_str());
-                } else {
-                    el.set_inner_html(hlDark.as_str());
-                }
-            }
-        }
-    });*/
-
     view! {
         <pre class="block">
             <code node_ref=node_ref class=format!("language-{language}")>

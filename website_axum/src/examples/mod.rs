@@ -90,14 +90,12 @@ pub use tag_colors::TagColors;
 pub use tag_sizes::TagSizes;
 
 
-use syntect::highlighting::{Theme, ThemeSet};
-use syntect::html::highlighted_html_for_string;
-use syntect::parsing::SyntaxSet;
+
 use leptos_use::{ColorMode};
 use crate::app::use_app_color_mode;
 use wasm_bindgen::prelude::*;
 
-#[server(
+/*#[server(
     // this server function will be exposed at /api2/custom_path
     prefix = "/api",
     endpoint = "getCode",
@@ -107,12 +105,15 @@ use wasm_bindgen::prelude::*;
     // (this needs to be enabled with the `serde-lite` feature on the `server_fn` crate
     output = SerdeLite,
 )]
-pub async fn get_code_example(input: String) -> Result<(String,String), ServerFnError> {
-    //println!("get code");
+    pub async fn get_code_example(input: String) -> Result<(String,String), ServerFnError> {
+    println!("get code");
+    //use regex::Regex;
+    //let re = Regex::new(r"^(([a-zA-Z]:|\\)\\)?(((\.)|(\.\.)|([^\\/:*?"|<>. ](([^\\/:*?"|<>. ])|([^\\/:*?"|<>]*[^\\/:*?"|<>. ]))?))\\)*[^\\/:*?"|<>. ](([^\\/:*?"|<>. ])|([^\\/:*?"|<>]*[^\\/:*?"|<>. ]))?$").unwrap();
+    //re
     let code_example_path = format!("./src/examples/{input}.rs");
     //use std::path::{self, Path};
     //let absolute = path::absolute(".")?;
-    //println!("absolute: {}", absolute.display());
+    println!("absolutabsolutee: {}", code_example_path);
     let data = std::fs::read_to_string(code_example_path);
     if data.is_ok() {
         let ss = SyntaxSet::load_defaults_newlines();
@@ -128,27 +129,52 @@ pub async fn get_code_example(input: String) -> Result<(String,String), ServerFn
         Err(ServerFnError::ServerError(data.err().unwrap().to_string()))
     }
     //let html = highlighted_html_for_file(code_example_path, &ss, theme);
-}
+}*/
 
 #[component]
 pub fn RustCodeExample(name: &'static str) -> impl IntoView {
-    let resource = Resource::new(|| (),move |_| async move {
-        let tmp=get_code_example(format!("{}",name)).await;
-        if tmp.is_ok(){
-            tmp.unwrap()
-        }
-        else {
-            let error =tmp.err().unwrap().to_string();
-            (format!("{}",error.clone()),format!("{}",error.clone()))
-        }
-    });
+
     let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
+    let light_path = format!("/highlight/light/{}.rs.html",name);
+    let dark_path = format!("/highlight/dark/{}.rs.html",name);
+
 
     view! {
-        //<Suspense fallback=move || {
-        //    view! { <CodeBlock>"Loading..."</CodeBlock> }
-        //}>
-            {move || Suspend::new(async move {
+        <div style = move || { match mode.get(){
+                    ColorMode::Dark => "display:none",
+                    ColorMode::Light => "display:",
+                    _ => "display:none"
+                }
+        }>
+        //<CodeBlock language="rs">
+            <object data=light_path height="auto" width="100%" type="text/html"/>
+        //</CodeBlock>
+        </div>
+        <div style = move || { match mode.get(){
+                    ColorMode::Dark => "display:",
+                    ColorMode::Light => "display:none",
+                    _ => "display:"
+                    }
+        }>
+        //<CodeBlock language="rs">
+            <object data=dark_path height="auto" width="100%" type="text/html"/>
+        //</CodeBlock>
+        </div>
+        /*<Suspense fallback=move || {
+            view! { <CodeBlock>"Loading..."</CodeBlock> }
+        }>
+            {
+                    let resource = Resource::new(|| (),move |_| async move {
+                    let tmp=get_code_example(format!("{}",name)).await;
+                    if tmp.is_ok(){
+                        tmp.unwrap()
+                    }
+                    else {
+                        let error =tmp.err().unwrap().to_string();
+                        (format!("{}",error.clone()),format!("{}",error.clone()))
+                    }
+                });
+                move || Suspend::new(async move {
                 let data = resource.await;
                 let node_ref:NodeRef<Code> = NodeRef::new();
 
@@ -165,9 +191,9 @@ pub fn RustCodeExample(name: &'static str) -> impl IntoView {
                     }
                 });
                 view! {
-                    <CodeBlock node_ref=node_ref language="rs">"Loading..."</CodeBlock>
+
                 }
             })}
-        //</Suspense>
+        </Suspense>*/
     }
 }
