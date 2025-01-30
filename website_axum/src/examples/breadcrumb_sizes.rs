@@ -11,9 +11,9 @@ pub fn BreadcrumbSizes() -> impl IntoView {
     view! {
         <For each=move || BREADCRUMB_SIZE_OPTIONS key=|bsize| *bsize let:bsize>
             <BBreadcrumb size=bsize>
-                <BBreadcrumbItem href_P="#">"Has"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#">"size"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#" is_active=true>
+                <BBreadcrumbItem href_p="#">"Has"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#">"size"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#" is_active=true>
                     {String::from(bsize)}
                 </BBreadcrumbItem>
             </BBreadcrumb>

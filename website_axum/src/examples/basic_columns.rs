@@ -3,7 +3,7 @@ use leptos_bulma::{
     columns::{BColumn, BColumns},
     elements::BBox,
 };
-use leptos::prelude::*;
+//use leptos::prelude::*;
 
 #[component]
 pub fn BasicColumns() -> impl IntoView {

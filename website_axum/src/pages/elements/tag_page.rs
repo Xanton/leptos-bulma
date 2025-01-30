@@ -6,7 +6,7 @@ use leptos_bulma::layout::BSection;
 use crate::components::{GoToBulmaIo, GoToDocsRs, PageTitle};
 use crate::examples::{BasicTags, RustCodeExample, TagAddons, TagColors, TagSizes};
 use crate::i18n::{t, use_i18n, t_string};
-use leptos::prelude::*;
+//use leptos::prelude::*;
 
 #[component]
 pub fn TagPage() -> impl IntoView {

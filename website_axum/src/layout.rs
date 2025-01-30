@@ -1,28 +1,21 @@
-use icondata_core::IconData;
 use leptos::*;
-use leptos_bulma::columns::{BColumn, BColumns};
 use leptos_bulma::components::{
-    BDropdown, BDropdownItem, BNavbar, BNavbarBrand, BNavbarBurger, BNavbarEnd, BNavbarItem,
+    BNavbar, BNavbarBrand, BNavbarBurger, BNavbarEnd, BNavbarItem,
     BNavbarItemDropdown, BNavbarMenu, BNavbarStart,
 };
-use leptos_bulma::elements::{BButton, BButtons, BIcon};
-use leptos_bulma::enums::{BSize, BState};
+use leptos_bulma::elements::BIcon;
+use leptos_bulma::enums::BSize;
 use leptos_bulma::icons::icondata_fa;
-use leptos_use::{
-    use_color_mode_with_options, use_cookie_with_options, use_debounce_fn, use_event_listener,
-    use_interval, use_intl_number_format, use_locales, use_preferred_dark, use_timestamp,
-    use_window, ColorMode, UseColorModeOptions, UseColorModeReturn, UseCookieOptions,
-    UseIntervalReturn, UseIntlNumberFormatOptions,
-};
+use leptos_use::UseColorModeReturn;
 use leptos::prelude::*;
 
 use crate::app::use_app_color_mode;
-use crate::i18n::{t, use_i18n, Locale};
+use crate::i18n::{t, use_i18n};
 
 #[component]
 pub fn Layout(children: Children) -> impl IntoView {
     let i18n = use_i18n();
-    let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
+    let UseColorModeReturn {   .. } = use_app_color_mode();
     let burger_is_active =  RwSignal::new(false);
 
     view! {

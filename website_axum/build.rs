@@ -1,12 +1,12 @@
 use std::io;
-use std::path::{Path, PathBuf};
+use std::path::Path;
 use std::fs;
 
-use syntect::highlighting::{Theme, ThemeSet};
+use syntect::highlighting::ThemeSet;
 use syntect::html::highlighted_html_for_string;
 use syntect::parsing::SyntaxSet;
 
-fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
+/*fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> {
     fs::create_dir_all(&dst)?;
 
     for entry in fs::read_dir(src)? {
@@ -24,15 +24,15 @@ fn copy_dir_all(src: impl AsRef<Path>, dst: impl AsRef<Path>) -> io::Result<()> 
     }
 
     Ok(())
-}
+}*/
 
-fn create_html_examles(src: impl AsRef<Path>, dst: impl AsRef<Path>,themeStr: &str)-> io::Result<()> {
+fn create_html_examles(src: impl AsRef<Path>, dst: impl AsRef<Path>, theme_str: &str) -> io::Result<()> {
     fs::create_dir_all(&dst)?;
 
     let ss = SyntaxSet::load_defaults_newlines();
     let syntax = ss.find_syntax_by_extension("rs");
     let ts = ThemeSet::load_defaults();
-    let theme= &ts.themes[themeStr];
+    let theme= &ts.themes[theme_str];
 
     for entry in fs::read_dir(src)? {
         let entry = entry?;

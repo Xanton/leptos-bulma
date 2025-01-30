@@ -1,6 +1,6 @@
 use leptos::*;
 use leptos_bulma::components::BPagination;
-use leptos::prelude::*;
+//use leptos::prelude::*;
 
 #[component]
 pub fn BasicPagination() -> impl IntoView {

@@ -5,7 +5,7 @@ use leptos_bulma::layout::BSection;
 use crate::components::{GoToBulmaIo, GoToDocsRs, PageTitle};
 use crate::examples::{BasicBlock, BasicBox, BasicTable, BasicTitle, RustCodeExample};
 use crate::i18n::{t, use_i18n};
-use leptos::prelude::*;
+//use leptos::prelude::*;
 use leptos_i18n::t_string;
 
 #[component]

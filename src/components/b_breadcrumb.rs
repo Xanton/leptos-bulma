@@ -46,11 +46,11 @@ pub fn BBreadcrumb(
 pub fn BBreadcrumbItem(
     children: Children,
     #[prop(optional, into)] is_active: Signal<bool>,
-    #[prop(optional, into)] href_P: TextProp,
+    #[prop(optional, into)] href_p: TextProp,
 ) -> impl IntoView {
     view! {
         <li class:is-active=is_active>
-            <a href=href_P.get()>{children()}</a>
+            <a href=href_p.get()>{children()}</a>
         </li>
     }
 }

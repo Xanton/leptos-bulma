@@ -6,7 +6,7 @@ use leptos_bulma::layout::BSection;
 use crate::components::{GoToBulmaIo, GoToDocsRs, PageTitle};
 use crate::examples::{BasicButtons, ButtonColors, ButtonSizes, ButtonStates, RustCodeExample};
 use crate::i18n::{t, use_i18n};
-use leptos::prelude::*;
+//use leptos::prelude::*;
 use leptos_i18n::t_string;
 
 #[component]
@@ -14,7 +14,7 @@ pub fn ButtonPage() -> impl IntoView {
     let i18n = use_i18n();
     let title = t_string!(i18n, button);
     view! {
-        <PageTitle text={title}/>
+        <PageTitle text={move || title}/>
         //<PageTitle text=t!(i18n, button)/>
 
         <BTitle is=3>{t!(i18n, button)}</BTitle>

@@ -3,10 +3,7 @@ use leptos::*;
 use leptos::prelude::*;
 use leptos_bulma::elements::BBlock;
 use leptos_meta::Title;
-use web_sys::HtmlElement;
 use leptos::text_prop::TextProp;
-use leptos_use::UseColorModeReturn;
-use crate::app::use_app_color_mode;
 use crate::i18n::{t, use_i18n};
 
 #[component]
@@ -14,7 +11,6 @@ pub fn PageTitle(#[prop(into)] text: TextProp) -> impl IntoView {
     view! { <Title text=format!("{} | Leptos Bulma", text.get())/> }
 }
 
-use leptos_use::{ColorMode};
 
 
 

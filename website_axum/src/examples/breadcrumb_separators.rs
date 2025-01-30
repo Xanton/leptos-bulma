@@ -16,10 +16,10 @@ pub fn BreadcrumbSeparators() -> impl IntoView {
     view! {
         <For each=move || BREADCRUMB_SEPARATOR_OPTIONS key=|bseparator| *bseparator let:bseparator>
             <BBreadcrumb separator=bseparator>
-                <BBreadcrumbItem href_P="#">"Is"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#">"separated"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#">"by"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#" is_active=true>
+                <BBreadcrumbItem href_p="#">"Is"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#">"separated"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#">"by"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#" is_active=true>
                     {String::from(bseparator)}
                 </BBreadcrumbItem>
             </BBreadcrumb>

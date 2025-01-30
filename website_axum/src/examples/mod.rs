@@ -1,25 +1,8 @@
 use leptos::*;
-use leptos::attr::Name;
 use leptos::prelude::*;
-use leptos::html::*;
-use leptos_meta::*;
-use leptos_router::*;
-use leptos::task::*;
-use server_fn::{
-    client::{browser::BrowserClient, Client},
-    codec::{
-        FromReq, FromRes, GetUrl, IntoReq, IntoRes, MultipartData,
-        MultipartFormData, Postcard, Rkyv, SerdeLite, StreamingText,
-        TextStream,
-    },
-    request::{browser::BrowserRequest, ClientReq, Req},
-    response::{browser::BrowserResponse, ClientRes, Res},
-};
-use std::path::Path;
-use leptos::web_sys::HtmlElement;
+//use leptos_router::*;
 use leptos_use::UseColorModeReturn;
 
-use crate::components::CodeBlock;
 
 mod basic_block;
 mod basic_box;
@@ -93,7 +76,6 @@ pub use tag_sizes::TagSizes;
 
 use leptos_use::{ColorMode};
 use crate::app::use_app_color_mode;
-use wasm_bindgen::prelude::*;
 
 /*#[server(
     // this server function will be exposed at /api2/custom_path
@@ -134,7 +116,7 @@ use wasm_bindgen::prelude::*;
 #[component]
 pub fn RustCodeExample(name: &'static str) -> impl IntoView {
 
-    let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
+    let UseColorModeReturn { mode,  .. } = use_app_color_mode();
     let light_path = format!("/highlight/light/{}.rs.html",name);
     let dark_path = format!("/highlight/dark/{}.rs.html",name);
 

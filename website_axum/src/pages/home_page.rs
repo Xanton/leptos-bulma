@@ -1,7 +1,7 @@
 use leptos::*;
 
 use crate::components::PageTitle;
-use crate::i18n::{t, use_i18n, t_string};
+use crate::i18n::{use_i18n, t_string};
 use leptos::prelude::*;
 //use leptos::html::*;
 

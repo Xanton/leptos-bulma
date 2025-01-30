@@ -11,9 +11,9 @@ pub fn BreadcrumbAlignments() -> impl IntoView {
     view! {
         <For each=move || BREADCRUMB_ALIGNMENT_OPTIONS key=|balignment| *balignment let:balignment>
             <BBreadcrumb alignment=balignment>
-                <BBreadcrumbItem href_P="#">"Is"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#">"aligned"</BBreadcrumbItem>
-                <BBreadcrumbItem href_P="#" is_active=true>
+                <BBreadcrumbItem href_p="#">"Is"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#">"aligned"</BBreadcrumbItem>
+                <BBreadcrumbItem href_p="#" is_active=true>
                     {String::from(balignment)}
                 </BBreadcrumbItem>
             </BBreadcrumb>

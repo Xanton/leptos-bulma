@@ -1,16 +1,15 @@
-use std::sync::LazyLock;
 
 use leptos::prelude::*;
 use leptos_meta::MetaTags;
 use leptos_meta::*;
-use leptos_router::{components::{FlatRoutes, ProtectedRoute, Route, Router, Routes}, hooks::use_params, params::Params, path, ParamSegment, SsrMode, StaticSegment};
+use leptos_router::{components::{Route, Router, Routes}, path, SsrMode};
 use leptos_bulma::columns::{BColumn, BColumns};
 use leptos_bulma::components::{
     BDropdown, BDropdownItem//, BNavbar, BNavbarBrand, BNavbarBurger, BNavbarEnd, BNavbarItem,
     //BNavbarItemDropdown, BNavbarMenu, BNavbarStart,
 };
 use leptos_bulma::elements::{BButton, BButtons, BIcon};
-use leptos_bulma::enums::{BSize, BState};
+use leptos_bulma::enums::BState;
 use leptos_bulma::icons::icondata_fa;
 
 //use crate::app::use_app_color_mode;
@@ -24,7 +23,6 @@ use std::sync::atomic::{AtomicBool, Ordering};
 use leptos_use::UseColorModeReturn;
 //use thiserror::Error;
 
-use crate::pages::components::BreadcrumbPage;
 use crate::i18n::provide_i18n_context;
 use crate::layout::Layout;
 use crate::pages::*;
@@ -79,7 +77,7 @@ pub fn use_app_color_mode() -> UseColorModeReturn {
 #[component]
 pub fn App() -> impl IntoView {
     // Provides context that manages stylesheets, titles, meta tags, etc.
-    let ct=provide_meta_context();
+    let _ct=provide_meta_context();
     //provide_meta_context();
     let fallback = || NotFoundPage.into_view();
     //let toggle_admin = ServerAction::<SetIsAdmin>::new();
@@ -88,7 +86,7 @@ pub fn App() -> impl IntoView {
 
     let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
 
-    let i18n = provide_i18n_context();
+    let _i18n = provide_i18n_context();
 
     //let (locale_cookie, _) = use_cookie::<String, FromToStringCodec>("i18n_pref_locale");
 
@@ -220,10 +218,7 @@ pub fn App() -> impl IntoView {
 
 use icondata_core::IconData;
 use leptos_use::{
-    use_color_mode_with_options, use_cookie_with_options, use_debounce_fn, use_event_listener,
-    use_interval, use_intl_number_format, use_locales, use_preferred_dark, use_timestamp,
-    use_window, ColorMode, UseColorModeOptions, UseCookieOptions,
-    UseIntervalReturn, UseIntlNumberFormatOptions,
+    use_color_mode_with_options, ColorMode, UseColorModeOptions,
 };
 
 #[component]
@@ -233,7 +228,7 @@ fn ImageColorModes(
     alt: &'static str,
     width: i8,
 ) -> impl IntoView {
-    let UseColorModeReturn { mode, set_mode, .. } = use_app_color_mode();
+    let UseColorModeReturn { mode,  .. } = use_app_color_mode();
     view! {
         <picture>
 

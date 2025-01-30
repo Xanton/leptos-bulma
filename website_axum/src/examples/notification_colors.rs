@@ -21,7 +21,7 @@ pub fn NotificationColors() -> impl IntoView {
             key=|bcolor| bcolor.clone()
             children=move |bcolor| {
                 let is_active = RwSignal::new(true);
-                let color = store_value(bcolor.clone());
+                let color = StoredValue::new(bcolor.clone());
                 view! {
                     <BNotification color=bcolor.clone() is_active=is_active>
                         "Lorem ipsum dolor sit amet, consectetur adipiscing elit lorem ipsum dolor. "
